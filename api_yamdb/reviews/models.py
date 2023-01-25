@@ -125,24 +125,6 @@ class Title(models.Model):
         verbose_name_plural = 'Произведения'
 
 
-class Genre(models.Model):
-    name = models.CharField(
-        verbose_name='Произведение',
-        on_delete=models.CASCADE
-    )
-    slug = models.SlugField(
-        verbose_name='Жанр',
-        on_delete=models.CASCADE
-    )
-
-    def __str__(self):
-        return f'{self.name} {self.slug}'
-
-    class Meta:
-        verbose_name = 'Произведение и жанр'
-        verbose_name_plural = 'Произведения и жанры'
-
-
 class Review(models.Model):
     title = models.ForeignKey(
         Title,
