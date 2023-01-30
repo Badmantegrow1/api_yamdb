@@ -53,6 +53,13 @@ class User(AbstractUser):
         verbose_name = 'Пользователь'
         verbose_name_plural = 'Пользователи'
 
+        constraints = [
+            models.CheckConstraint(
+                check=~models.Q(username__iexact="me"),
+                name="username_is_not_me"
+            )
+        ]
+
 
 class Category(models.Model):
     name = models.CharField(
@@ -76,10 +83,11 @@ class Category(models.Model):
 class Genre(models.Model):
     name = models.CharField(
         verbose_name='Название жанра',
-        max_length=200
+        max_length=256
     )
     slug = models.SlugField(
         verbose_name='Идентификатор',
+        max_length=50,
         unique=True
     )
 
@@ -89,6 +97,7 @@ class Genre(models.Model):
     class Meta:
         verbose_name = 'Жанр'
         verbose_name_plural = 'Жанры'
+        ordering = ['name']
 
 
 class Title(models.Model):
@@ -98,7 +107,7 @@ class Title(models.Model):
     )
     year = models.IntegerField(
         verbose_name='Год выхода',
-        validators=(validate_year, )
+        validators=(validate_year,)
     )
     description = models.TextField(
         verbose_name='Описание',
@@ -113,8 +122,13 @@ class Title(models.Model):
         Category,
         verbose_name='Категория',
         on_delete=models.SET_NULL,
+        related_name='titles',
+        null=True
+    )
+    rating = models.IntegerField(
+        verbose_name='Рейтинг',
         null=True,
-        blank=True
+        default=None
     )
 
     def __str__(self):
@@ -123,20 +137,21 @@ class Title(models.Model):
     class Meta:
         verbose_name = 'Произведение'
         verbose_name_plural = 'Произведения'
+        ordering = ['name']
 
 
-class Genre(models.Model):
-    name = models.CharField(
+class GenreTitle(models.Model):
+    title = models.ForeignKey(
+        Title,
         verbose_name='Произведение',
-        on_delete=models.CASCADE
-    )
-    slug = models.SlugField(
+        on_delete=models.CASCADE)
+    genre = models.ForeignKey(
+        Genre,
         verbose_name='Жанр',
-        on_delete=models.CASCADE
-    )
+        on_delete=models.CASCADE)
 
     def __str__(self):
-        return f'{self.name} {self.slug}'
+        return f'{self.title}, жанр - {self.genre}'
 
     class Meta:
         verbose_name = 'Произведение и жанр'
