@@ -1,4 +1,3 @@
-from django.db import models
 from django.contrib.auth.tokens import default_token_generator
 from django.core.mail import send_mail
 from django.db.models import Avg
@@ -33,8 +32,7 @@ class CategoryViewSet(ListCreateDestroyViewSet):
     lookup_field = "slug"
 
 
-class GenreViewSet(models.Model):
-    '''Представление списка жанров.'''
+class GenreViewSet(ListCreateDestroyViewSet):
     queryset = Genre.objects.all()
     serializer_class = GenreSerializer
     permission_classes = (IsAdminOrReadOnly,)
