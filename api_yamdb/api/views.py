@@ -148,6 +148,7 @@ def create_user(request):
             status=status.HTTP_500_INTERNAL_SERVER_ERROR,
         )
 
+
 @api_view(['POST'])
 @permission_classes([AllowAny])
 def create_token(request):

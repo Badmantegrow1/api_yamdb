@@ -1,3 +1,4 @@
+from django.contrib.auth.validators import UnicodeUsernameValidator
 from django.db.models import Avg
 from django.forms import ValidationError
 from django.shortcuts import get_object_or_404
@@ -115,26 +116,27 @@ class UserSerializer(serializers.ModelSerializer):
         )
 
 
-class CreateUserSerializer(serializers.ModelSerializer):
+class CreateUserSerializer(serializers.Serializer):
     """Serializer создания нового пользователя."""
 
-    class Meta:
-        model = User
-        fields = ('username', 'email',)
+    email = serializers.EmailField(max_length=254, required=True,
+                                   validators=[UnicodeUsernameValidator()])
+    username = serializers.CharField(max_length=150, required=True,
+                                     validators=[UnicodeUsernameValidator()])
 
     def validate(self, data):
         if data['username'] == 'me':
-            raise serializers.ValidationError(
-                "Использовать имя 'me' в качестве username запрещено!"
-            )
+            raise serializers.ValidationError('Нельзя использовать логин me')
         return data
 
+    class Meta:
+        fields = ('username', 'email')
 
-class CreateTokenSerializer(serializers.ModelSerializer):
+
+class CreateTokenSerializer(serializers.Serializer):
     """Serializer создания JWT-токена для пользователей."""
-    username = serializers.CharField()
-    confirmation_code = serializers.CharField()
+    username = serializers.CharField(max_length=150, required=True)
+    confirmation_code = serializers.CharField(required=True)
 
     class Meta:
-        model = User
-        fields = ('username', 'confirmation_code',)
+        fields = ('username', 'token')
