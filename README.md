@@ -37,13 +37,15 @@ API YaMDb позволяет работать со следующими сущн
 
 * [Python 3.7+](https://www.python.org/downloads/)
 * [Django 2.2.16](https://www.djangoproject.com/download/)
-* [Django Rest Framework 3.12.4](https://pypi.org/project/djangorestframework/#files)
+* [Django Rest Framework 3.12.4](https://pypi.
+  org/project/djangorestframework/#files)
 * [Pytest 6.2.4](https://pypi.org/project/pytest/)
 * [Simple-JWT 1.7.2](https://pypi.org/project/djangorestframework-simplejwt/)
 * [pytest 6.2.4](https://pypi.org/project/pytest/)
 * [pytest-pythonpath 0.7.3](https://pypi.org/project/pytest-pythonpath/)
 * [pytest-django 4.4.0](https://pypi.org/project/pytest-django/)
-* [djangorestframework-simplejwt 4.7.2](https://pypi.org/project/djangorestframework-simplejwt/)
+* [djangorestframework-simplejwt 4.7.2](https://pypi.
+  org/project/djangorestframework-simplejwt/)
 * [Pillow 9.2.0](https://pypi.org/project/Pillow/)
 * [PyJWT 2.1.0](https://pypi.org/project/PyJWT/)
 * [requests 2.26.0](https://pypi.org/project/requests/)
