@@ -33,21 +33,6 @@ API YaMDb позволяет работать со следующими сущн
   новый комментарий для отзыва, получить комментарий для отзыва по id, частично
   обновить комментарий к отзыву по id, удалить комментарий к отзыву по id.
 
-## Участники проекта:
-
-[vkfedosov](https://github.com/vkfedosov) - управление пользователями (Auth и
-Users):
-система регистрации и аутентификации, права доступа, работа с токеном, система
-подтверждения e-mail, поля;
-
-[Fedoska48](https://github.com/Fedoska48) - категории (Categories), жанры (
-Genres)
-и произведения (Titles): модели, view и эндпойнты для них;
-
-[LevLM](https://github.com/LevLM) (teamlead) - отзывы (Review) и комментарии (
-Comments):
-модели и view, эндпойнты, права доступа для запросов. Рейтинги произведений.
-
 ## Стек технологий:
 
 * [Python 3.7+](https://www.python.org/downloads/)
@@ -97,12 +82,26 @@ pip install -r requirements.txt
 python manage.py migrate
 ```
 
+* Выполнить загрузку информации в базу данных:
+
+```
+python manage.py load_csv
+```
+
 * Запустить проект:
 
 ```
 python manage.py runserver
 ```
 
+
 ## Документация для YaMDb доступна по адресу:
 
 ```http://127.0.0.1/redoc/```
+
+## Авторы:
+[Badmantegrow1](https://github.com/Badmantegrow1)
+
+[lyshenko-andrey](https://github.com/lyshenko-andrey)
+
+[Vladimir Taras](https://github.com/schizgod)

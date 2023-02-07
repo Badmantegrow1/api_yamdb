@@ -18,6 +18,14 @@ class Genre(models.Model):
         return self.slug
 
 
+class GenreTitle(models.Model):
+    genre = models.ForeignKey('Genre', on_delete=models.CASCADE)
+    title = models.ForeignKey('Title', on_delete=models.CASCADE)
+
+    def __str__(self):
+        return f'{self.title} {self.genre}'
+
+
 class Category(models.Model):
     """Модель категории."""
     name = models.CharField('Категория', max_length=256)
