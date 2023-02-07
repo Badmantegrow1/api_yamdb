@@ -2,6 +2,7 @@ from django.contrib.auth.models import AbstractUser
 from django.db import models
 from users.validators import UsernameValidator
 
+
 USER = 'user'
 MODERATOR = 'moderator'
 ADMIN = 'admin'
@@ -24,7 +25,8 @@ class User(AbstractUser):
     )
     first_name = models.CharField(max_length=150, blank=True)
     last_name = models.CharField(max_length=150, blank=True)
-    email = models.EmailField('Email', max_length=254, unique=True)
+    email = models.EmailField('Email', max_length=254, unique=True,
+                              blank=False, null=False)
     role = models.CharField(
         'Роль пользователя',
         choices=roles,
@@ -37,8 +39,8 @@ class User(AbstractUser):
         null=True
     )
 
-    REQUIRED_FIELDS = ['email']
-    USERNAME_FIELDS = 'email'
+    USERNAME_FIELD = 'email'
+    REQUIRED_FIELDS = ['username']
 
     def __str__(self):
         return str(self.username)
@@ -59,10 +61,5 @@ class User(AbstractUser):
         return self.role == "user"
 
     class Meta:
+        unique_together = ('email',)
         ordering = ('username',)
-
-        def __init__(self):
-            self.username = None
-
-        def __str__(self):
-            return self.username
