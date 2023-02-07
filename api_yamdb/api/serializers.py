@@ -119,18 +119,37 @@ class UserSerializer(serializers.ModelSerializer):
 class CreateUserSerializer(serializers.Serializer):
     """Serializer создания нового пользователя."""
 
-    email = serializers.EmailField(max_length=254, required=True,
-                                   validators=[UnicodeUsernameValidator()])
+    email = serializers.EmailField(max_length=254, required=True,)
+
     username = serializers.CharField(max_length=150, required=True,
                                      validators=[UnicodeUsernameValidator()])
 
-    def validate(self, data):
-        if data['username'] == 'me':
-            raise serializers.ValidationError('Нельзя использовать логин me')
-        return data
-
     class Meta:
-        fields = ('username', 'email')
+        model = User
+        fields = ('email', 'username')
+
+    def validate_username(self, name):
+        if name == 'me':
+            raise serializers.ValidationError(
+                'Имя пользователя "me" не разрешено.')
+        return name
+
+    def validate(self, data):
+        username = data.get('username')
+        email = data.get('email')
+        if (
+                User.objects.filter(username=username).exists()
+                and User.objects.get(username=username).email != email
+        ):
+            raise serializers.ValidationError(
+                'Пользователь с таким username уже зарегистрирован')
+        if (
+                User.objects.filter(email=email).exists()
+                and User.objects.get(email=email).username != username
+        ):
+            raise serializers.ValidationError(
+                'Указанная почта уже зарегестрирована другим пользователем')
+        return data
 
 
 class CreateTokenSerializer(serializers.Serializer):

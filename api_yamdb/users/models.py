@@ -14,6 +14,7 @@ class User(AbstractUser):
         (MODERATOR, MODERATOR),
         (ADMIN, ADMIN),
     )
+
     username_validator = UsernameValidator()
     username = models.CharField(
         'Имя пользователя',
