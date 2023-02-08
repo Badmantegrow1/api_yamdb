@@ -59,7 +59,7 @@ git clone git@github.com:badmantegrow1/api_yamdb.git
 ```
 
 ```
-cd api_final_yatube
+cd api_yamdb
 ```
 
 * Cоздать и активировать виртуальное окружение:
