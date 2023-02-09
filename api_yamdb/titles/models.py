@@ -6,7 +6,7 @@ from django.db import models
 
 class Genre(models.Model):
     """Модель жанра."""
-    name = models.CharField('Жанр', max_length=200)
+    name = models.CharField(verbose_name='Жанр', max_length=200)
     slug = models.SlugField(max_length=50, unique=True)
 
     class Meta:
@@ -28,7 +28,7 @@ class GenreTitle(models.Model):
 
 class Category(models.Model):
     """Модель категории."""
-    name = models.CharField('Категория', max_length=256)
+    name = models.CharField(verbose_name='Категория', max_length=256)
     slug = models.SlugField(max_length=50, unique=True)
 
     class Meta:
@@ -42,13 +42,13 @@ class Category(models.Model):
 
 class Title(models.Model):
     """Модель произведения."""
-    name = models.CharField('Название', max_length=100)
+    name = models.CharField(verbose_name='Название', max_length=100)
     year = models.IntegerField(
         'Год',
         validators=[MaxValueValidator(int(datetime.now().year))]
     )
     rating = models.IntegerField(null=True, default=None)
-    description = models.TextField('Описание', null=True)
+    description = models.TextField(verbose_name='Описание', null=True)
     category = models.ForeignKey(
         Category,
         on_delete=models.SET_NULL,

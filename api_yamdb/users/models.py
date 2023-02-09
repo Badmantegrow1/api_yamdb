@@ -18,23 +18,23 @@ class User(AbstractUser):
 
     username_validator = UsernameValidator()
     username = models.CharField(
-        'Имя пользователя',
+        verbose_name='Имя пользователя',
         max_length=150,
         unique=True,
         validators=[username_validator],
     )
     first_name = models.CharField(max_length=150, blank=True)
     last_name = models.CharField(max_length=150, blank=True)
-    email = models.EmailField('Email', max_length=254, unique=True,
-                              blank=False, null=False)
+    email = models.EmailField(verbose_name='Email', max_length=254,
+                              unique=True, blank=False, null=False)
     role = models.CharField(
-        'Роль пользователя',
+        verbose_name='Роль пользователя',
         choices=roles,
         max_length=max(len(role[1]) for role in roles), default=USER
     )
-    bio = models.TextField('Биография', blank=True)
+    bio = models.TextField(verbose_name='Биография', blank=True)
     confirmation_code = models.CharField(
-        'Код подтверждения',
+        verbose_name='Код подтверждения',
         max_length=100,
         null=True
     )

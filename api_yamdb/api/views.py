@@ -3,7 +3,6 @@ from smtplib import SMTPResponseException
 from django.conf import settings
 from django.contrib.auth.tokens import default_token_generator
 from django.core.mail import send_mail
-from django.db.models import Avg
 from django.shortcuts import get_object_or_404
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import filters, status, viewsets
@@ -28,17 +27,14 @@ from .serializers import (CategorySerializer, CommentSerializer,
 
 class TitleViewSet(viewsets.ModelViewSet):
     """Вьюсет для произведения."""
-    queryset = Title.objects.all().annotate(
-        Avg('reviews__score')).prefetch_related(
-        'category', 'genre'
-    )
+    queryset = Title.objects.all()
     serializer_class = TitleSerializer
     filter_backends = [DjangoFilterBackend]
-    filter_class = TitleFilter
+    filterset_class = TitleFilter
     permission_classes = [IsAdminOrReadOnly, ]
 
     def get_serializer_class(self):
-        if self.request.method in ('POST', 'PATCH'):
+        if self.request.method in ('POST', 'PATCH',):
             return TitleSerializer
         return TitleGetSerializer
 
@@ -49,7 +45,6 @@ class CategoryViewSet(GetListCreateDeleteMixin):
     serializer_class = CategorySerializer
     permission_classes = [IsAdminOrReadOnly, ]
     filter_backends = (DjangoFilterBackend, SearchFilter)
-    filterset_fields = ('name', 'slug')
     search_fields = ('name', 'slug',)
     lookup_field = 'slug'
 
@@ -60,7 +55,6 @@ class GenreViewSet(GetListCreateDeleteMixin):
     serializer_class = GenreSerializer
     permission_classes = [IsAdminOrReadOnly, ]
     filter_backends = (DjangoFilterBackend, SearchFilter)
-    filterset_fields = ('name', 'slug')
     search_fields = ('name', 'slug')
     lookup_field = 'slug'
 

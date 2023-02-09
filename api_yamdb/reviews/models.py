@@ -6,16 +6,18 @@ from users.models import User
 
 class Review(models.Model):
     text = models.TextField()
-    pub_date = models.DateTimeField('Дата публикации', auto_now_add=True)
+    pub_date = models.DateTimeField(verbose_name='Дата публикации',
+                                    auto_now_add=True)
     score = models.PositiveSmallIntegerField(
         validators=[MinValueValidator(1),
                     MaxValueValidator(10)],
     )
     author = models.ForeignKey(
-        User, on_delete=models.CASCADE, related_name='reviews')
+        User, on_delete=models.CASCADE, related_name='reviews',
+        verbose_name='автор')
     title = models.ForeignKey(
         Title, on_delete=models.CASCADE,
-        related_name="reviews",
+        related_name="reviews", verbose_name='произведение'
     )
 
     class Meta:
@@ -33,14 +35,20 @@ class Review(models.Model):
 
 class Comment(models.Model):
     author = models.ForeignKey(
-        User, on_delete=models.CASCADE, related_name='comments')
+        User, on_delete=models.CASCADE, related_name='comments',
+        verbose_name='автор')
     review = models.ForeignKey(
-        Review, on_delete=models.CASCADE, related_name='comments')
+        Review, on_delete=models.CASCADE, related_name='comments',
+        verbose_name='отзыв')
     text = models.TextField(
-        'Текст комментария',
+        verbose_name='Текст комментария',
         max_length=200)
-    pub_date = models.DateTimeField(
-        'Дата добавления', auto_now_add=True, db_index=True)
+    pub_date = models.DateTimeField(verbose_name='Дата добавления',
+                                    auto_now_add=True, db_index=True)
+
+    class Meta:
+        verbose_name = 'Комментарий'
+        verbose_name_plural = 'Комментарии'
 
     def __str__(self):
         return self.text
